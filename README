@@ -1,0 +1,71 @@
+SaltyBookie v4.0
+
+https://github.com/Xomnom/saltybookie
+
+SaltyBookie calculates ratings for SaltyBet ( http://saltybet.com )
+characters using logistic regression.  saltybookie.r is a R script and
+requires R libraries 'Matrix' and 'glmnet'.  saltybookie.pl is a XChat
+plugin and requires Perl modules Text::CSV and String::Approx.
+
+Type 'make' to generate ratings.  For convenience, this repository also
+includes a pre-generated ratings.noheader.csv, which is the input file
+to saltybookie.pl.
+
+matches.all.csv 'exclude' column legend:
+0 = not excluded
+1 = mirror match
+2 = non-1v1
+3 = autobalance
+4 = double-record error
+5 = uncertain whether _old_
+6 = other
+7 = temporary
+
+A linear increase in the difference between two characters' ratings implies
+an exponential increase in one characters's odds of beating the other.  In
+theory each 1-pt. difference equates to a e:1 odds factor (see equation).
+
+P(win_red) = 1 / (1 + e^(rating_blue - rating_red))
+
+However, because it doesn't (yet) calibrate variance on a per-character
+basis, SaltyBookie currently overestimates the probability of upset for a
+majority of matchups and underestimates it for a minority.
+
+      2013-8-17:    Logistic regression using glm(); run duration: 30-40 min.
+v0,   2013-8-19:    Logistic regression using glmnet; run duration: ~1 sec.
+
+v1.0, 2013-8-24:    Xom_bot outputs statblocks for individual characters!
+v1.2, 2013-8-24:    Xom_bot now has cooldowns per unique response.
+v1.3, 2013-8-24:    Xom_bot now fuzzy-matches names!
+v1.4, 2013-8-24:    Xom_bot now autocorrects when exactly one fuzzy-match.
+
+v2.1, 2013-8-24:    Xom_bot now outputs predicted probabilities!
+v2.2, 2013-8-24:    Xom_bot now responds to SaltyGoku commands.
+v2.5, 2013-8-25:    Xom_bot now responds to Possessed_Hanny commands.
+v2.6, 2013-8-27:    Fix Xom_bot crash when too many fuzzy-match results.
+
+v3.0, 2013-8-27:    Overconfident no more!  SaltyBookie now uses a
+                      normal-distribution prior (i.e. ridge regression)
+                      at a prior strength chosen with cross-validation.
+                      Previously, it used (due to my ignorance) a
+                      Laplacian prior at minimum strength.
+v3.1, 2013-8-27:    Xom_bot in color!
+v3.2, 2013-8-29:    Restructure match history CSV.
+v3.3, 2013-9-2:     Prefix pre-buff/nerf characters with _old_.
+v3.4, 2013-9-16:    Exclude autobalance matches.
+v3.5, 2013-9-18:    Xom_bot now responds to Peppermill output.
+
+v4.0, 2013-9-24:    Add documentation and license.  Automate data
+                      processing pipeline with Makefile.  Re-restructure
+                      match history CSV.  Put on GitHub.
+
+TODO:
+> Calibrate variance on a per-character basis.
+> For names with dupes added in Sep., prefix with _aug_ in previous matches.
+> Then undo the temporary exclusion on post-September-update matches.
+
+This program is free software.  It comes without any warranty, to the
+extent permitted by applicable law.  You can redistribute it and/or modify
+it under the terms of the WTFPL Version 2, as published by Sam Hocevar.
+See COPYING ( also at http://www.wtfpl.net/txt/copying ) for more details.
+

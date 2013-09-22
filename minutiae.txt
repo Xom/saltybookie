@@ -1,0 +1,24 @@
+I've made quite a few manual edits to matches.all.csv, and here I'll try to
+mention as many of those edits as I can remember, but be warned, I probably
+won't get them all.
+  --Xomnom
+
+For some of the mirror matches, I couldn't be bothered to discover which of
+the numbers I had was winnerbet and which was loserbet, so I flipped a coin.
+
+_old_ is for buffs, nerfs, and removed dupes (some Ash dupes were removed
+in September).  _aug_ is for names with dupes added in September.
+
+I'm uncertain whether Zeroko beat Marisa kirisame under AI or human control.
+
+Some names were inconsistently capitalized, due to being typed in by Salty
+for exhibition matches; other than occasionally being easier to distinguish
+an exhibition match, lowercasing all data didn't destroy any info.
+
+Some names had a space at the end, which I've stripped, except for 'Kyo'
+and 'Kyo ', which I've renamed to _fake_kyo and _real_kyo, respectively.
+
+It seemed likely enough that Marisa (in old matches i.e. not the new
+Marisa) and Marisa kirisame are the same character for me to edit the
+former to the latter, even though I'm still not completely certain.
+
