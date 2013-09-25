@@ -26,9 +26,20 @@ m[cbind(evens, winners[evens])] <- m[cbind(evens, winners[evens])] - 1
 weigh <- matches$X5.0 + 1
 
 ridgemodel <- glmnet(m, y, family = "binomial", intercept = FALSE, alpha = 0, weights = weigh)
+ratings <- ridgemodel$beta[,95]
 
-ratings <- predict(ridgemodel, m, s = 0.007806593, type = "coefficients", exact = TRUE)
-ratings <- ratings[2:length(ratings)]
+scores <- -log(1 + exp(ratings[losers] - ratings[winners]))
+chardevs <- rep(0, length(charnames))
+for(i in 1:n) {
+  chardevs[winners[i]] <- chardevs[winners[i]] + scores[i]
+  chardevs[losers[i]] <- chardevs[losers[i]] + scores[i]
+}
+chardevs <- chardevs / (w + l)
+chardevratios <- pmax(0.1, 1 - (chardevs / log(0.5)))
+downweigh <- chardevratios[winners] * chardevratios[losers]
+
+ridgemodel <- glmnet(m, y, family = "binomial", intercept = FALSE, alpha = 0, weights = (weigh * downweigh))
+ratings <- ridgemodel$beta[,96]
 
 bests <- rep(0, length(charnames))
 worsts <- rep(0, length(charnames))
@@ -43,7 +54,7 @@ lassocoefs <- predict(lassomodel, m, s = 0.00004, type = "coefficients", exact =
 lassocoefs <- lassocoefs[2:length(lassocoefs)]
 wellrated <- (w > 0) & (l > 0) & (abs(lassocoefs - lassomodel$beta[,length(lassomodel$lambda)]) < 0.73)
 
-results <- cbind(1:length(charnames), w, l, ratings, bests, worsts, wellrated)
+results <- cbind(1:length(charnames), w, l, ratings, bests, worsts, wellrated, chardevs)
 
 write.csv(results)
 

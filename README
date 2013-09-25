@@ -1,4 +1,4 @@
-SaltyBookie v4.0
+SaltyBookie v4.1
 
 https://github.com/Xomnom/saltybookie
 
@@ -31,6 +31,14 @@ However, because it doesn't (yet) calibrate variance on a per-character
 basis, SaltyBookie currently overestimates the probability of upset for a
 majority of matchups and underestimates it for a minority.
 
+New in v4.1, proven high-variance characters such as Dhalsim and Mr burns
+(as opposed to uncertainty due to a character's low number of past matches)
+have less of an effect on everyone's ratings.  This is accomplished via,
+when computing ratings, weighting each match by each combatant's past
+performance consistency.  (With that said, SaltyBookie and Xom_bot still
+don't yet account for variance on a per-character basis when using the
+ratings to calculate probabilities.)
+
       2013-8-17:    Logistic regression using glm(); run duration: 30-40 min.
 v0,   2013-8-19:    Logistic regression using glmnet; run duration: ~1 sec.
 
@@ -58,11 +66,14 @@ v3.5, 2013-9-18:    Xom_bot now responds to Peppermill output.
 v4.0, 2013-9-24:    Add documentation and license.  Automate data
                       processing pipeline with Makefile.  Re-restructure
                       match history CSV.  Put on GitHub.
+v4.1, 2013-9-25:    When computing ratings, downweight matches involving
+                      characters proven to be high-variance.
 
 TODO:
-> Calibrate variance on a per-character basis.
 > For names with dupes added in Sep., prefix with _aug_ in previous matches.
 > Then undo the temporary exclusion on post-September-update matches.
+> Account for character variance when Xom_bot calculates probabilities.
+> Look for more matches missed by scrapers other than Hightower.
 
 This program is free software.  It comes without any warranty, to the
 extent permitted by applicable law.  You can redistribute it and/or modify

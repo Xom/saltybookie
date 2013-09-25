@@ -6,7 +6,7 @@ use lib '/home/frobozz/perl5/lib/perl5';
 use Text::CSV;
 use String::Approx 'amatch';
 
-my $version = '4.0';
+my $version = '4.1';
 Xchat::register 'SALTY', $version, '', '';
 my $status = 0; #loading success flag
 
@@ -19,7 +19,8 @@ my $ratings_file = '/home/frobozz/xom_bot/ratings.noheader.csv';
 # 4 rating
 # 5 bestwin
 # 6 worstloss
-# 7 otier (0 = no; 1 = yes)
+# 7 wellrated (0 = no; 1 = yes)
+# 8 deviance (measure of variance in past performance)
 
 my @rows;
 my $csv;
@@ -162,7 +163,7 @@ sub statblock {
     my $bwin = bestwin($id);
     my $wloss = worstloss($id);
     my $sblock = sprintf('%+.1f', rating($id));
-    if ((otier($id) == 0) || (rating($wloss) - rating($bwin) > 5)) {
+    if ((wellrated($id) == 0) || (rating($wloss) - rating($bwin) > 5)) {
         $sblock .= '?';
     }
     $sblock = sprintf('%s[%s; 3%dW 5%dL', ucfirst(name($id)), $sblock, wincount($id), losscount($id));
@@ -180,7 +181,7 @@ sub statsub {
     my $depth = shift;
     my $bwin = bestwin($id);
     my $wloss = worstloss($id);
-    my $dubious = ((otier($id) == 0) || (rating($wloss) - rating($bwin) > 5 + abs($depth)));
+    my $dubious = ((wellrated($id) == 0) || (rating($wloss) - rating($bwin) > 5 + abs($depth)));
     my $sblock = sprintf('%+.1f', rating($id));
     if ($dubious) {
         $sblock .= '?';
@@ -200,8 +201,8 @@ sub statsub {
 sub matchup {
     my $red = shift;
     my $blue = shift;
-    my $rdubious = ((otier($red) == 0) || (rating(worstloss($red)) - rating(bestwin($red)) > 5));
-    my $bdubious = ((otier($blue) == 0) || (rating(worstloss($blue)) - rating(bestwin($blue)) > 5));
+    my $rdubious = ((wellrated($red) == 0) || (rating(worstloss($red)) - rating(bestwin($red)) > 5));
+    my $bdubious = ((wellrated($blue) == 0) || (rating(worstloss($blue)) - rating(bestwin($blue)) > 5));
     my $rrating = sprintf('%+.1f', rating($red));
     my $brating = sprintf('%+.1f', rating($blue));
     if ($rdubious) {
@@ -283,7 +284,7 @@ sub worstloss {
     return $rows[rowofid($id)][6];
 }
 
-sub otier {
+sub wellrated {
     my $id = shift;
     return $rows[rowofid($id)][7];
 }
