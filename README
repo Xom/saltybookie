@@ -1,4 +1,4 @@
-SaltyBookie v4.1
+SaltyBookie v4.2
 
 https://github.com/Xomnom/saltybookie
 
@@ -68,12 +68,13 @@ v4.0, 2013-9-24:    Add documentation and license.  Automate data
                       match history CSV.  Put on GitHub.
 v4.1, 2013-9-25:    When computing ratings, downweight matches involving
                       characters proven to be high-variance.
+v4.2, 2013-10-2:    September match history update!  Also includes
+                      spectate-only matches from August 14 downtime.
 
 TODO:
-> For names with dupes added in Sep., prefix with _aug_ in previous matches.
-> Then undo the temporary exclusion on post-September-update matches.
 > Account for character variance when Xom_bot calculates probabilities.
 > Look for more matches missed by scrapers other than Hightower.
+> Investigate whether any more dupes were removed in September.
 
 This program is free software.  It comes without any warranty, to the
 extent permitted by applicable law.  You can redistribute it and/or modify

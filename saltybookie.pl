@@ -6,7 +6,7 @@ use lib '/home/frobozz/perl5/lib/perl5';
 use Text::CSV;
 use String::Approx 'amatch';
 
-my $version = '4.1';
+my $version = '4.2';
 Xchat::register 'SALTY', $version, '', '';
 my $status = 0; #loading success flag
 
@@ -75,14 +75,17 @@ sub chanmsgaux {
     # use nick Xom_bot because xchat intercepts messages containing nick!
     if ((substr($message, 0, 4) eq '!xb ') || (substr($message, 0, 4) eq '~xb ')) {
         $message = trim(substr($message, 4));
-        my $comma = index($message, ',');
+        my $comma = index($message, "\t");
+        if ($comma == -1) {
+            $comma = index($message, ',');
+        }
         if ($comma == -1) {
             pstatblock($channel, $message);
         } else {
             my $red = pstatblock($channel, trim(substr($message, 0, $comma)));
             my $blue = pstatblock($channel, trim(substr($message, $comma + 1)));
             if ($red && $blue) {
-                pcooldown("$red,$blue", $channel, matchup($red, $blue));
+                pcooldown("$red\t$blue", $channel, matchup($red, $blue));
             }
         }
     } elsif (substr($message, 0, 8) eq '!xombot ') {
@@ -101,7 +104,7 @@ sub chanmsgaux {
                 }
                 if ($j != -1) {
                     Xchat::command 'msg #saltyfart --';
-                    chanmsgaux('#saltyfart', $chatter, '!xb '.substr($peppers[0], 0, $i).','.substr($peppers[1], 0, $j));
+                    chanmsgaux('#saltyfart', $chatter, '!xb '.substr($peppers[0], 0, $i)."\t".substr($peppers[1], 0, $j));
                 } else {
                     chanmsgaux('#saltyfart', $chatter, '!xb '.substr($peppers[0], 0, $i));
                 }
