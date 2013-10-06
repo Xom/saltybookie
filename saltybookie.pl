@@ -6,11 +6,11 @@ use lib '/home/frobozz/perl5/lib/perl5';
 use Text::CSV;
 use String::Approx 'amatch';
 
-my $version = '4.2';
+my $version = '4.3';
 Xchat::register 'SALTY', $version, '', '';
 my $status = 0; #loading success flag
 
-my $ratings_file = '/home/frobozz/xom_bot/ratings.noheader.csv';
+my $ratings_file = '/home/frobozz/saltybookie/ratings.noheader.csv';
 
 # 0 name
 # 1 id
@@ -98,9 +98,12 @@ sub chanmsgaux {
                 $i = index($peppers[0], 'was not found in the database. check your spelling!');
             }
             if ($i != -1) {
-                my $j = index($peppers[1], ': [e:');
-                if ($j == -1) {
-                    $j = index($peppers[1], 'was not found in the database. check your spelling!');
+                my $j = -1;
+                if ($peppers[1]) {
+                    $j = index($peppers[1], ': [e:');
+                    if ($j == -1) {
+                        $j = index($peppers[1], 'was not found in the database. check your spelling!');
+                    }
                 }
                 if ($j != -1) {
                     Xchat::command 'msg #saltyfart --';
@@ -108,6 +111,7 @@ sub chanmsgaux {
                 } else {
                     chanmsgaux('#saltyfart', $chatter, '!xb '.substr($peppers[0], 0, $i));
                 }
+                Xchat::print "Peppermill\t$message";
             }
         } elsif ((substr($message, 0, 3) eq '`s ') || (substr($message, 0, 3) eq '?s ')) {
             chanmsgaux('#saltyfart', $chatter, '!xb '.trim(substr($message, 3)));

@@ -1,4 +1,4 @@
-SaltyBookie v4.2
+SaltyBookie v4.3
 
 https://github.com/Xomnom/saltybookie
 
@@ -16,7 +16,7 @@ matches.all.csv 'exclude' column legend:
 1 = mirror match
 2 = non-1v1
 3 = autobalance
-4 = double-record error
+4 = (unused)
 5 = uncertain whether _old_
 6 = other
 7 = temporary
@@ -70,11 +70,12 @@ v4.1, 2013-9-25:    When computing ratings, downweight matches involving
                       characters proven to be high-variance.
 v4.2, 2013-10-2:    September match history update!  Also includes
                       spectate-only matches from August 14 downtime.
+v4.3, 2013-10-6:    Add Shaker Classic 11 matches (temporarily excluding
+                      other October matches) and the rest of the
+                      Hightower-only matches.  Minor code changes.
 
 TODO:
 > Account for character variance when Xom_bot calculates probabilities.
-> Look for more matches missed by scrapers other than Hightower.
-> Investigate whether any more dupes were removed in September.
 
 This program is free software.  It comes without any warranty, to the
 extent permitted by applicable law.  You can redistribute it and/or modify
